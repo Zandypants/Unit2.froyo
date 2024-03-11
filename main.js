@@ -1,35 +1,34 @@
-const flavors = ["vanilla", "strawberry", "coffee"];
+/**
+ * @param {string[]} inputs an array of strings
+ * @returns {object} record of repeated strings in inputs, where key = input string : value = number of times key was repeated in array
+ */
+const tallyRepeatedInput = (inputs) => {
+  // validate
+  if (!Array.isArray(inputs)) return {};
 
-const verifyPropertyNumber = (obj, key) => {
-  return Object.hasOwn(obj, key) && typeof(obj[key]) === "number";
-}
-
-const parseInputs = (inputs, table) => {
-  if (!Array.isArray(inputs)) return `Expected array input, got: ${inputs}`;
-  if (typeof(table) !== "object") return `Expected object argument to record output, got: ${table}`;
-
-  console.log(inputs);
+  const results = {};
   for(let i=0; i < inputs.length; i++) {
-    if (!verifyPropertyNumber(table, inputs[i])) continue;
+    const key = inputs[i];
+    // validate
+    if (typeof(key) !== "string" || key.length <= 0) continue;
 
-    table[inputs[i]]++;
+    // Tally
+    if (Object.hasOwn(results, key)) {
+      results[key]++;
+    } else {
+      results[key] = 1;
+    }
   }
+
+  return results;
 }
 
 let orderInput = prompt(
   `List froyo orders by writing out the desired flavor for each order (separate orders with commas). 
-  Available flavors are: ${flavors}`, `${flavors[0]},${flavors[0]},${flavors[1]}`
+  Example: vanilla,vanilla,vanilla,strawberry,coffee,coffee`
 );
-// make input case insensitive
-orderInput = orderInput.toLowerCase();
 
-// Initialize tallied orders with available flavors
-const talliedOrders = {};
-for(let i=0; i < flavors.length; i++) {
-  talliedOrders[flavors[i]] = 0;
-}
-//tally orders from input
-parseInputs(orderInput.split(','), talliedOrders);
-
-// display
-console.table(talliedOrders);
+if (orderInput) {
+  const talliedOrders = tallyRepeatedInput(orderInput.split(','));
+  console.table(talliedOrders);
+} else console.log("Order was cancelled");
