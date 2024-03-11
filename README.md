@@ -1,0 +1,2 @@
+# Submission for Fullstack Academy Block 15 Workshop: Froyo Orders
+Web page prompting user to input froyo orders by flavors, which then collapses flavor duplicates into a table displaying the number of each flavor ordered. 
